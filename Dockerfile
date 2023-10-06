@@ -1,21 +1,20 @@
-FROM python:3.11.1
+FROM python:3.7.7-slim
 
-# Install pipenv
-RUN pip install pipenv
+ENV PYTHONUNBUFFERED=1
 
-# Set the working directory to /app (you can adjust this to your application's directory)
-WORKDIR /app
+COPY * /opt/microservices/
+COPY requirements.txt /opt/microservices/
+RUN pip install --upgrade pip \
+  && pip install --upgrade pipenv\
+  && apt-get clean \
+  && apt-get update \
+  && apt install -y build-essential \
+  && apt install -y libmariadb3 libmariadb-dev \
+  && pip install --upgrade -r /opt/microservices/requirements.txt
 
-# Copy your application code to the container
-COPY . /app
-
-# Install Flask using pipenv inside the container
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --ignore-pipfile
-
-# Define the entry point and command
 USER 1001
 
-EXPOSE 5000
+EXPOSE 8080
+WORKDIR /opt/microservices/
 
-ENTRYPOINT ["pipenv", "run"]
-CMD ["python3", "/app/app1.py"]
+CMD ["python", "app1.py", "8080"]

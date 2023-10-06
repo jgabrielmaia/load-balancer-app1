@@ -1,10 +1,19 @@
-from flask import request, Flask
-import json
-app1 = Flask(__name__)
+from flask import Flask
+from flask import Response
 
-@app1.route('/')
-def hello_world():
-    return 'App1: running'
+app = Flask(__name__)
 
-if __name__ == '__main__':
-    app1.run(debug=True, host='0.0.0.0')
+
+@app.route('/')
+def index():
+    return "App1: running"
+ 
+
+@app.route("/healthz")
+def healthz():
+    resp = Response("ok")
+    resp.headers['Custom-Header'] = 'Awesome'
+    return resp
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port='8080')
