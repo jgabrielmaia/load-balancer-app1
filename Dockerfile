@@ -1,6 +1,4 @@
-FROM python:latest
-
-USER 1001:100
+FROM python:3.11.1
 
 # Install pipenv
 RUN pip install pipenv
@@ -15,5 +13,6 @@ COPY . /app
 RUN pipenv install --deploy --ignore-pipfile
 
 # Define the entry point and command
+USER 1001
 ENTRYPOINT ["pipenv", "run"]
 CMD ["python", "app1.py"]
