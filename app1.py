@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "App1: running"
+    return "App1: running with webhook: test 1"
  
 
 @app.route("/healthz")
