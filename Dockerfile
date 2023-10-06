@@ -10,9 +10,12 @@ WORKDIR /app
 COPY . /app
 
 # Install Flask using pipenv inside the container
-RUN pipenv install --deploy --ignore-pipfile
+RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --ignore-pipfile
 
 # Define the entry point and command
 USER 1001
+
+EXPOSE 5000
+
 ENTRYPOINT ["pipenv", "run"]
-CMD ["python", "app1.py"]
+CMD ["python3", "/app/app1.py"]
