@@ -1,7 +1,5 @@
 FROM python:latest
 
-USER 1001
-
 # Install pipenv
 RUN pip install pipenv
 
